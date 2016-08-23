@@ -208,6 +208,7 @@ public class Main {
 
 	private static void cmdLoginRefresh() throws Exception {
 		PokeBO.getDefault().refreshLogin();
+		cmdLocal( new String[]{ "l", "last" } );
 	}
 
 	private static void cmdPowerUp(String[] args) throws LoginFailedException, RemoteServerException, InvalidCurrencyException {
@@ -947,7 +948,6 @@ public class Main {
 					e.printStackTrace();
 				}
 				
-				TimeUtils.delay( 10, 25 );
 				break;
 			}
 		}
@@ -1013,6 +1013,8 @@ public class Main {
 			// TODO ACTIVITY_POKEDEX_ENTRY_NEW
 			MyLogger.LOGGER.info("\tCAPTURED: " + TextUtils.toString( cp.getPokemonId() ) );
 			TextUtils.printCatchResult(cr);
+			TimeUtils.delay( 10, 25 );
+			
 			AudioUtils.beepSound( 5 );
 			return false;
 		}
