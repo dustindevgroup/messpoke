@@ -553,23 +553,21 @@ public class Main {
 
 	private static void cmdPokestops(String args[]) throws Exception {
 		System.out.println("===== cmdPokestops =====");
-		// ps [r]fresh [c]
+		// ps [r]fresh
+		
+		if (listPokestops == null) {
+			refreshPokestops();
+		}
+		
 		if ( args.length > 1 ) {
-			
-			if (listPokestops == null) {
+			if ( "last".equals( args[1] ) ) {
+				if ( lastPokestop != null ) {
+					checkAndLoot(lastPokestop);
+					return;
+				}
+			} else if ( "r".equals( args[1] ) ) {
 				refreshPokestops();
 			}
-			
-			System.out.println("listPokestops = " + (listPokestops == null ? null : listPokestops.size()));
-			
-			if (lastPokestop != null) {
-				checkAndLoot(lastPokestop);
-				return;
-			}
-			
-		} else {
-			refreshPokestops();
-			System.out.println("listPokestops = " + (listPokestops == null ? null : listPokestops.size()));
 		}
 		
 		String url = BASE_URL;
@@ -598,6 +596,8 @@ public class Main {
 		for (Pokestop pokestop : listPokestops) {
 			mapPsLure.put(pokestop, pokestop.hasLure());
 		}
+		
+		System.out.println("listPokestops = " + (listPokestops == null ? null : listPokestops.size()));
 	}
 
 	private static String qParameter(Pokestop ps, boolean hasLure) {
@@ -622,8 +622,8 @@ public class Main {
 	private static boolean checkAndLoot(Pokestop ps) throws Exception {
 		
 		String qParameter = qParameter(ps,mapPsLure.get(ps));
-		MyLogger.LOGGER.info("[pokestop] " + TextUtils.toString(ps, mapPsLure));
-		MyLogger.LOGGER.info("\t" + BASE_URL + qParameter);
+		System.out.println("[pokestop] " + TextUtils.toString(ps, mapPsLure));
+		System.out.println("\t" + BASE_URL + qParameter);
 		
 		if ( ps.inRange() ) {
 			System.out.println(ps.getId() + " - what to do ? (y) (inloop) (lure)");
