@@ -255,4 +255,14 @@ public class PokeBO {
 				|| ItemId.ITEM_MASTER_BALL == itemId;
 	}
 
+	public void refreshLogin() throws Exception {
+		this.logOut();
+		this.doLogin();
+	}
+
+	private void logOut() {
+		this.GO = null;
+		this.isLogged = false;
+	}
+
 }

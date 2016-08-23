@@ -97,6 +97,7 @@ public class Main {
 							"gym",
 							"finder poke,id,s [max]",
 							"powerup",
+							"loginrefresh",
 							"exit"
 					};
 					for (int i = 0; i < cmds.length; i++) {
@@ -187,6 +188,10 @@ public class Main {
 						cmdPowerUp(args);
 						break;
 						
+					case "loginrefresh":
+						cmdLoginRefresh();
+						break;
+						
 					default:
 						break;
 				}
@@ -199,6 +204,10 @@ public class Main {
 		} while( !"exit".equals(answer) );
 			
 		KeyboardUtils.close();
+	}
+
+	private static void cmdLoginRefresh() throws Exception {
+		PokeBO.getDefault().refreshLogin();
 	}
 
 	private static void cmdPowerUp(String[] args) throws LoginFailedException, RemoteServerException, InvalidCurrencyException {
@@ -237,7 +246,7 @@ public class Main {
 		System.out.println( "\tselected.getCandyCostsForPowerup() = " + selected.getCandyCostsForPowerup() );
 		System.out.println( "\tselected.getStardustCostsForPowerup() = " + selected.getStardustCostsForPowerup() );
 		
-		System.out.println( "power it up?" );
+		System.out.println( "power it up? (yes)" );
 		if ( ! "yes".equals( KeyboardUtils.readString() ) ) {
 			return;
 		}

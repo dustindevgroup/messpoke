@@ -154,7 +154,7 @@ public class TextUtils {
 			}
 			
 			if ("evolve".equals(sortType)) {
-				HashMap<Pokemon, Integer> map = new HashMap<Pokemon, Integer>();
+				HashMap<Pokemon, Integer[]> map = new HashMap<>();
 				for (Pokemon p : pokemons) {
 					int toEvolve = p.getCandiesToEvolve();
 					int candFactor;
@@ -163,22 +163,25 @@ public class TextUtils {
 					} else {
 						candFactor = -1;
 					}
-					map.put(p, candFactor);
+					map.put(p, new Integer[]{ candFactor, p.getCandy(), toEvolve  });
 				}
 				
 				Collections.sort(pokemons, new Comparator<Pokemon>() {
 
 					@Override
 					public int compare(Pokemon p1, Pokemon p2) {
-						int can2 = map.get( p2 );
-						int can1 = map.get( p1 );
+						int can2 = map.get( p2 )[0];
+						int can1 = map.get( p1 )[0];
 						return can2 - can1;
 					}
 				});
 				
 				for (Pokemon pokemon : pokemons) {
-					System.out.println("  candy factor: " + String.format("%03d", map.get(pokemon))
-										+ " > " + TextUtils.toString( pokemon.getPokemonId() ));
+					Integer ints[] = map.get(pokemon);
+					System.out.println("  factor: " + String.format("%03d", ints[0])
+						+ " , " + String.format("%3d", ints[1])
+						+ " / " + String.format("%3d", ints[2])
+						+ "  > " + TextUtils.toString( pokemon.getPokemonId() ));
 				}
 				
 				return;
